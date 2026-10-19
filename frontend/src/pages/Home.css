@@ -1,0 +1,527 @@
+/* ===== Shared ===== */
+.home {
+  font-family: 'Saira', sans-serif;
+  color: #ffffff;
+  background: #15151e;
+}
+
+.section-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #e10600;
+}
+
+/* Slanted race button (same skew as the FANTASY text) */
+.btn-race {
+  display: inline-block;
+  padding: 12px 28px;
+  background: #e10600;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transform: skewX(-12deg);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-race span {
+  display: inline-block;
+  transform: skewX(12deg);
+}
+
+.btn-race:hover {
+  background: #ff1e1e;
+  transform: skewX(-12deg) translateY(-2px);
+}
+
+.btn-race.outline {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px #ffffff;
+}
+
+.btn-race.outline:hover {
+  background: #ffffff;
+  color: #15151e;
+}
+
+/* ===== Hero: start lights, with a red glow from the very top ===== */
+.hero {
+  min-height: 592px;
+  margin-top: -72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px 56px;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 0%, rgba(225, 6, 0, 0.38), transparent 70%),
+    #15151e;
+}
+
+/* The lamp size comes from React (--lamp): big at first, smaller with each light */
+.lights {
+  display: flex;
+  gap: calc(var(--lamp) * 0.3);
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: gap 0.6s ease;
+}
+
+.light-pod {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--lamp) * 0.22);
+  padding: calc(var(--lamp) * 0.22);
+  background: #0b0b10;
+  border: 1px solid #2a2a36;
+  border-radius: calc(var(--lamp) * 0.25);
+  transition: padding 0.6s ease, gap 0.6s ease;
+}
+
+.lamp {
+  width: min(var(--lamp), 12vw);
+  height: min(var(--lamp), 12vw);
+  border-radius: 50%;
+  background: #2a2a36;
+  transition: width 0.6s ease, height 0.6s ease, background 0.08s, box-shadow 0.08s;
+}
+
+.light-pod.on .lamp {
+  background: #e10600;
+  box-shadow: 0 0 22px rgba(225, 6, 0, 0.75);
+}
+
+/* Hidden (takes no space) until the lights go out, then pops in */
+.hero-text {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 32px;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: max-height 0.5s ease, opacity 0.35s ease 0.15s, transform 0.35s ease 0.15s, margin 0.5s ease;
+}
+
+.hero-text.show {
+  max-height: 420px;
+  margin-top: 32px;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 4.5vw, 3.6rem);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.05;
+  transform: skewX(-8deg);
+}
+
+.hero h1 span {
+  color: #e10600;
+}
+
+.hero p {
+  margin: 14px auto 28px;
+  max-width: 520px;
+  font-size: 1.05rem;
+  color: #b8b8c4;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 4px;
+}
+
+/* ===== Driver ticker: the 2026 grid ===== */
+.ticker {
+  display: flex;
+  align-items: stretch;
+  background: #0f0f15;
+  border-top: 1px solid #2a2a36;
+  border-bottom: 1px solid #2a2a36;
+}
+
+/* Fixed red label on the left */
+.ticker-label {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 28px 0 32px;
+  background: #e10600;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%);
+}
+
+.ticker-label span {
+  font-size: 0.85rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+/* The moving part */
+.ticker-window {
+  flex: 1;
+  overflow: hidden;
+  padding: 12px 0;
+}
+
+.ticker-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: ticker-scroll 70s linear infinite;
+}
+
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+  to { transform: translateX(-50%); }
+}
+
+.ticker-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px 6px 8px;
+  background: #1f1f2b;
+  border-left: 3px solid #e10600;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.ticker-photo {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid #2a2a36;
+  overflow: hidden;
+  background: #15151e;
+}
+
+.ticker-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.ticker-img.fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.ticker-number {
+  font-weight: 800;
+}
+
+.ticker-name {
+  font-weight: 600;
+}
+
+.ticker-team {
+  color: #8a8a98;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ticker-price {
+  color: #b8b8c4;
+}
+
+/* ===== Featured team (compact) ===== */
+.featured {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 64px 56px 32px;
+}
+
+.featured-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto;
+  align-items: center;
+  gap: 40px;
+  padding: 28px 32px;
+  background: #1b1b26;
+  border: 1px solid #2a2a36;
+  border-left: 3px solid #e10600;
+}
+
+.featured h2 {
+  margin-top: 6px;
+  font-size: 1.8rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.featured-manager {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: #b8b8c4;
+}
+
+.status {
+  padding: 1px 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.status.final {
+  background: #e10600;
+  color: #ffffff;
+}
+
+.status.draft {
+  border: 1px solid #8a8a98;
+  color: #b8b8c4;
+}
+
+/* Budget bar */
+.budget {
+  margin-top: 18px;
+  max-width: 280px;
+}
+
+.budget-text {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: #8a8a98;
+}
+
+.budget-text strong {
+  color: #ffffff;
+}
+
+.budget-bar {
+  height: 5px;
+  background: #2a2a36;
+}
+
+.budget-fill {
+  height: 100%;
+  background: #e10600;
+  transition: width 0.5s ease;
+}
+
+/* Arrows to switch team */
+.featured-arrows {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  font-size: 0.85rem;
+  color: #8a8a98;
+}
+
+.featured-arrows button {
+  width: 32px;
+  height: 32px;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: #ffffff;
+  background: #15151e;
+  border: 1px solid #2a2a36;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.featured-arrows button:hover {
+  background: #e10600;
+  border-color: #e10600;
+}
+
+/* Line-up: drivers + constructors */
+.featured-lineup {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.lineup-drivers,
+.lineup-constructors {
+  display: flex;
+  gap: 18px;
+}
+
+.lineup-divider {
+  width: 1px;
+  align-self: stretch;
+  background: #2a2a36;
+}
+
+.driver-pick,
+.constructor-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s;
+}
+
+.driver-pick:hover,
+.constructor-pick:hover {
+  transform: translateY(-4px);
+}
+
+.driver-photo {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 3px solid #2a2a36;
+  overflow: hidden;
+  background: #15151e;
+}
+
+.driver-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.driver-img.fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 900;
+  font-style: italic;
+}
+
+.driver-pick-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pick-price {
+  font-size: 0.75rem;
+  color: #8a8a98;
+}
+
+.constructor-logo {
+  width: 88px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: #15151e;
+  border: 1px solid #2a2a36;
+}
+
+.constructor-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.constructor-img.fallback {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ===== Finish line ===== */
+.checkered {
+  height: 20px;
+  background: repeating-conic-gradient(#ffffff 0 25%, #15151e 0 50%) 0 0 / 20px 20px;
+  opacity: 0.85;
+}
+
+.finish {
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.finish h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  transform: skewX(-8deg);
+}
+
+.finish p {
+  margin: 12px 0 28px;
+  color: #b8b8c4;
+}
+
+/* ===== Small screens ===== */
+@media (max-width: 1100px) {
+  .featured-card {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    margin-top: -64px;
+    padding-top: 112px;
+  }
+
+  .ticker-label {
+    padding: 0 20px 0 16px;
+  }
+
+  .featured {
+    padding: 40px 16px;
+  }
+
+  .featured-card {
+    padding: 22px 18px;
+  }
+
+  .featured-lineup {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .lineup-drivers {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .lineup-divider {
+    display: none;
+  }
+
+  .driver-photo {
+    width: 54px;
+    height: 54px;
+  }
+}

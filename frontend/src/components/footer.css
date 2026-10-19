@@ -1,0 +1,18 @@
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 28px 20px;
+  font-family: 'Saira', sans-serif;
+  background:
+    radial-gradient(ellipse 60% 140% at 50% 100%, rgba(225, 6, 0, 0.22), transparent 70%),
+    #15151e;
+  border-top: 1px solid #2a2a36;
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  color: #b8b8c4;
+  text-align: center;
+}

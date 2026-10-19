@@ -1,0 +1,503 @@
+/* ===== Page ===== */
+
+.about-page {
+  /* Match this value to your navbar height. */
+  --navbar-height: 72px;
+  --card-gap: 24px;
+
+  box-sizing: border-box;
+  height: calc(100dvh - var(--navbar-height));
+  min-height: 0;
+  padding: 24px 4vw;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 20px;
+
+  font-family: "Saira", sans-serif;
+  color: #ffffff;
+
+  background:
+    radial-gradient(
+      ellipse 70% 90% at 50% 0%,
+      rgba(225, 6, 0, 0.38),
+      transparent 70%
+    ),
+    #15151e;
+}
+
+.about-page *,
+.about-page *::before,
+.about-page *::after {
+  box-sizing: border-box;
+}
+
+/* ===== Heading ===== */
+
+.about-heading {
+  text-align: center;
+}
+
+.about-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #e10600;
+}
+
+.about-heading h1 {
+  margin: 10px 0 0;
+  font-size: clamp(2rem, 4.5vw, 3.6rem);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.05;
+  transform: skewX(-8deg);
+}
+
+.about-heading h1 span {
+  color: #e10600;
+}
+
+.about-heading p {
+  margin: 12px auto 0;
+  font-size: 1rem;
+  color: #b8b8c4;
+}
+
+/* ===== Three cards ===== */
+
+.about-steps {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 0;
+  height: 100%;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--card-gap);
+  align-items: center;
+}
+
+.about-card {
+  min-width: 0;
+  height: min(100%, 440px);
+  padding: clamp(18px, 2vw, 28px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  background: #1b1b26;
+  border: 1px solid #2a2a36;
+  border-top: 3px solid #e10600;
+  border-radius: 0 22px 0 0;
+
+  opacity: 0;
+  visibility: hidden;
+}
+
+.about-number {
+  color: #e10600;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+}
+
+.about-card h2 {
+  margin: 12px 0 16px;
+  font-size: 1.8rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.about-card p {
+  margin: 0 0 12px;
+  color: #b8b8c4;
+  font-size: clamp(0.78rem, 1vw, 0.92rem);
+  line-height: 1.5;
+}
+
+.about-card strong {
+  color: #ffffff;
+}
+
+.about-card-tag {
+  margin-top: auto;
+  padding-top: 12px;
+
+  color: #e10600;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* ===== Animation sequence ===== */
+
+/* Appear in the middle, pause, then glide left. */
+.about-step-one {
+  animation: about-first 3.6s cubic-bezier(0.22, 1, 0.36, 1)
+    forwards;
+}
+
+/* Appear after the first card moves left. */
+.about-step-two {
+  animation: about-reveal 0.9s ease 3.6s forwards;
+}
+
+/* Appear last on the right. */
+.about-step-three {
+  animation: about-reveal 0.9s ease 6s forwards;
+}
+
+@keyframes about-first {
+  0% {
+    opacity: 0;
+    visibility: visible;
+    transform: translateX(calc(100% + var(--card-gap)))
+      translateY(20px);
+  }
+
+  20%,
+  70% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(calc(100% + var(--card-gap)))
+      translateY(0);
+  }
+
+  100% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes about-reveal {
+  from {
+    opacity: 0;
+    visibility: visible;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Build Your Team button ===== */
+
+.about-action {
+  padding: 6px;
+  text-align: center;
+
+  opacity: 0;
+  visibility: hidden;
+  animation: about-reveal 0.8s ease 7.3s forwards;
+}
+
+/* Matches className="btn-race" in your JSX. */
+.about-page .btn-race {
+  display: inline-block;
+  padding: 12px 28px;
+
+  background: #e10600;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+
+  transform: skewX(-12deg);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.about-page .btn-race span {
+  display: inline-block;
+  transform: skewX(12deg);
+}
+
+.about-page .btn-race:hover {
+  background: #ff1e1e;
+  transform: skewX(-12deg) translateY(-2px);
+}
+
+.about-page .btn-race:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 5px;
+}
+
+/* ===== Shorter laptop screens ===== */
+
+@media (max-height: 760px) and (min-width: 761px) {
+  .about-page {
+    padding: 16px 3vw;
+    gap: 12px;
+  }
+
+  .about-heading h1 {
+    font-size: 2.5rem;
+  }
+
+  .about-heading p {
+    margin-top: 8px;
+    font-size: 0.9rem;
+  }
+
+  .about-card {
+    padding: 16px;
+  }
+
+  .about-number {
+    font-size: 2.2rem;
+  }
+
+  .about-card h2 {
+    margin: 8px 0 10px;
+    font-size: 1.4rem;
+  }
+
+  .about-card p {
+    margin-bottom: 8px;
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  .about-card-tag {
+    padding-top: 8px;
+    font-size: 0.6rem;
+  }
+}
+
+/* ===== Narrow screens ===== */
+
+@media (max-width: 760px) {
+  .about-page {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+
+  .about-label {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+  }
+
+  .about-heading h1 {
+    margin-top: 6px;
+    font-size: 1.8rem;
+  }
+
+  .about-heading p {
+    margin-top: 6px;
+    font-size: 0.75rem;
+  }
+
+  .about-steps {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    align-content: center;
+  }
+
+  .about-card {
+    position: relative;
+    height: auto;
+    padding: 10px 12px 10px 48px;
+    border-radius: 0 12px 0 0;
+  }
+
+  .about-number {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.6rem;
+  }
+
+  .about-card h2 {
+    margin: 0 0 5px;
+    font-size: 1rem;
+  }
+
+  .about-card p {
+    margin-bottom: 4px;
+    font-size: 0.7rem;
+    line-height: 1.3;
+  }
+
+  .about-card-tag {
+    display: none;
+  }
+
+  /* Vertical reveal on phones. */
+  .about-step-one {
+    animation-name: about-reveal;
+    animation-duration: 0.9s;
+  }
+
+  .about-page .btn-race {
+    padding: 10px 22px;
+    font-size: 0.72rem;
+  }
+}
+
+/* ===== Reduced motion ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .about-card,
+  .about-action {
+    animation: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
+/* Full-screen transition */
+.race-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+
+/* Gray concrete track expands across the screen */
+.race-transition-wipe {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+
+  background:
+    /* Concrete texture */
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.025) 0 1px,
+      transparent 1px 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.04) 0 1px,
+      transparent 1px 7px
+    ),
+    #15151e;
+
+  animation: race-screen-wipe 1s
+    cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* White dashed lane markings */
+.race-transition-wipe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    repeating-linear-gradient(
+      to right,
+      #eeeeee 0 70px,
+      transparent 70px 130px
+    ) left 28% / 100% 5px no-repeat,
+
+    repeating-linear-gradient(
+      to right,
+      #eeeeee 0 70px,
+      transparent 70px 130px
+    ) left 72% / 100% 5px no-repeat;
+
+  opacity: 0.85;
+}
+
+/* Track edges with red and white kerbs */
+.race-transition-wipe::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    repeating-linear-gradient(
+      to right,
+      #e10600 0 48px,
+      #eeeeee 48px 96px
+    ) left top / 100% 18px no-repeat,
+
+    repeating-linear-gradient(
+      to right,
+      #e10600 0 48px,
+      #eeeeee 48px 96px
+    ) left bottom / 100% 18px no-repeat;
+
+  border-top: 5px solid #15151e;
+  border-bottom: 5px solid #15151e;
+}
+
+/* This wrapper moves across the screen */
+.race-transition-car {
+  position: absolute;
+  top: 50%;
+  left: 0;
+
+  width: clamp(280px, 40vw, 600px);
+  height: clamp(140px, 20vw, 300px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  animation: race-car-drive 1s
+    cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* Rotate the upward-facing car to face right */
+.race-transition-car img {
+  display: block;
+  width: auto;
+  height: 180%;
+  max-width: none;
+
+  transform: rotate(90deg);
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.3));
+}
+
+.race-transition-car {
+  z-index: 2;
+}
+
+@keyframes race-car-drive {
+  from {
+    transform: translate(-120%, -50%);
+  }
+
+  to {
+    transform: translate(110vw, -50%);
+  }
+}
+
+@keyframes race-screen-wipe {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.about-page .btn-race {
+  border: none;
+  cursor: pointer;
+}
+
+.about-page .btn-race:disabled {
+  cursor: wait;
+}
