@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div align="center">
 
 # 🏁 F1 Fantasy
@@ -182,3 +183,6 @@ Designed and built by **Roya** and **Amanda** ([@amandaelkik](https://github.com
 <sub>An unofficial student project made for learning purposes. Not affiliated with Formula 1 or the FIA. Driver photos are loaded from the OpenF1 API.</sub>
 
 </div>
+=======
+# F1_Fantasy
+>>>>>>> 6732082a1a5bb7dee2fbbd23ba9c210cca9110d5
