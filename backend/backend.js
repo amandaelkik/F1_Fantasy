@@ -3,20 +3,15 @@ const cors = require('cors');
 const { drivers, constructors } = require('./data');
 
 const app = express();
-const port = process.env.PORT || 3000; // Use environment variable or default to 3000
+const port = process.env.PORT || 3000; // use the PORT variable if it exists, otherwise 3000
 
-// Allow the React app (on another port) to call this API
+// let the React app (running on another port) call this API
 app.use(cors());
 
-// Middleware to parse JSON request bodies
+// read JSON from the request body
 app.use(express.json());
-// Middleware to parse URL-encoded form data (used by the plain HTML form)
-app.use(express.urlencoded({ extended: true }));
 
-// Static file serving middleware: serves the HTML test page from the 'public' directory
-app.use(express.static('public'));
-
-// Sample data: the fantasy teams
+// our fantasy teams (saved in memory, no database)
 const teams = [
     {
         id: 1,
@@ -47,74 +42,88 @@ const teams = [
     }
 ];
 
-// Define a GET route to retrieve all drivers
+// check that a team has all the needed fields with the right types
+function isValidTeam(team) {
+    return team &&
+        typeof team.teamName === 'string' && team.teamName.trim() !== '' &&
+        team.manager && typeof team.manager === 'object' && !Array.isArray(team.manager) &&
+        Array.isArray(team.driverIds) &&
+        Array.isArray(team.constructorIds);
+}
+
+// get all drivers
 app.get('/drivers', (req, res) => {
     res.json(drivers);
 });
 
-// Define a GET route to retrieve all constructors
+// get all constructors
 app.get('/constructors', (req, res) => {
     res.json(constructors);
 });
 
-// Define a GET route to retrieve all teams
+// get all teams
 app.get('/teams', (req, res) => {
     res.json(teams);
 });
 
-// Define a GET route to retrieve a specific team by ID
+// get one team by its id
 app.get('/teams/:id', (req, res) => {
-  const team = teams.find(c => c.id === parseInt(req.params.id));
-  if (!team) {
-    return res.status(404).json({ message: 'Team not found' });
-  }
-  res.json(team);
+    const team = teams.find(t => t.id === parseInt(req.params.id));
+
+    if (!team) {
+        return res.status(404).json({ message: 'Team not found' });
+    }
+
+    res.json(team);
 });
 
-// Define a POST route to add a new team
+// add a new team
 app.post('/teams', (req, res) => {
     const newTeam = req.body;
 
-    if (newTeam && newTeam.teamName && newTeam.manager && newTeam.driverIds && newTeam.constructorIds) {
-        newTeam.id = Math.max(0, ...teams.map(t => t.id)) + 1;
-        teams.push(newTeam);
-        res.status(201).json(newTeam);
-    } else {
-        res.status(400).json({ message: 'Invalid team data' });
+    if (!isValidTeam(newTeam)) {
+        return res.status(400).json({ message: 'Invalid team data' });
     }
+
+    // give the new team the next id
+    newTeam.id = Math.max(0, ...teams.map(t => t.id)) + 1;
+    teams.push(newTeam);
+    res.status(201).json(newTeam);
 });
 
-// Define a PUT route to update an existing team
+// update a team (replaces the whole team with what was sent)
 app.put('/teams/:id', (req, res) => {
     const teamId = parseInt(req.params.id);
     const index = teams.findIndex(t => t.id === teamId);
     const updatedTeam = req.body;
 
     if (index === -1) {
-        res.status(404).json({ message: 'Team not found' });
-    } else if (updatedTeam && updatedTeam.teamName && updatedTeam.manager && updatedTeam.driverIds && updatedTeam.constructorIds) {
-        updatedTeam.id = teamId; // Keep the same id
-        teams[index] = updatedTeam;
-        res.json(updatedTeam);
-    } else {
-        res.status(400).json({ message: 'Invalid team data' });
+        return res.status(404).json({ message: 'Team not found' });
     }
+
+    if (!isValidTeam(updatedTeam)) {
+        return res.status(400).json({ message: 'Invalid team data' });
+    }
+
+    updatedTeam.id = teamId; // keep the same id
+    teams[index] = updatedTeam;
+    res.json(updatedTeam);
 });
 
-// Define a DELETE route to remove a team
+// delete a team
 app.delete('/teams/:id', (req, res) => {
     const teamId = parseInt(req.params.id);
     const index = teams.findIndex(t => t.id === teamId);
 
-    if (index !== -1) {
-        const deletedTeam = teams.splice(index, 1); // Remove 1 team at that position
-        res.json({ message: 'Team deleted', team: deletedTeam[0] });
-    } else {
-        res.status(404).json({ message: 'Team not found' });
+    if (index === -1) {
+        return res.status(404).json({ message: 'Team not found' });
     }
+
+    const deletedTeam = teams.splice(index, 1); // remove 1 team at that position
+    res.json({ message: 'Team deleted', team: deletedTeam[0] });
 });
 
-// Start the server
+// start the server
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
