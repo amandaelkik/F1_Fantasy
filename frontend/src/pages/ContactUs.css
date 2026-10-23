@@ -362,3 +362,25 @@
     transform: none;
   }
 }
+
+/* ===== Red glow behind the navbar =====
+   The page starts behind the see-through navbar (like Home),
+   so the glow shows through the navbar too. */
+.contact-page {
+  --nav: 72px;
+  margin-top: calc(-1 * var(--nav));
+  min-height: 100dvh;
+  padding-top: calc(32px + var(--nav));
+}
+
+@media (max-width: 900px) {
+  .contact-page {
+    --nav: 64px;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-page {
+    padding-top: calc(24px + var(--nav));
+  }
+}
