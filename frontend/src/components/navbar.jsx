@@ -17,7 +17,7 @@ function Navbar() {
 
       <div className={`navbar-links ${menuOpen ? 'show' : ''}`}>
         <NavLink to="/" end onClick={closeMenu}>Home</NavLink>
-        <NavLink to="/build" onClick={closeMenu}>Build Your Team</NavLink>
+        <NavLink to="/teams" onClick={closeMenu}>Build Your Team</NavLink>
         <NavLink to="/about" onClick={closeMenu}>About Us</NavLink>
         <NavLink to="/contact" onClick={closeMenu}>Contact Us</NavLink>
       </div>
