@@ -501,3 +501,31 @@
 .about-page .btn-race:disabled {
   cursor: wait;
 }
+
+/* ===== Red glow behind the navbar =====
+   The page starts behind the see-through navbar (like Home),
+   so the glow shows through the navbar too. */
+.about-page {
+  --nav: 72px;
+  margin-top: calc(-1 * var(--nav));
+  height: 100dvh;
+  padding-top: calc(24px + var(--nav));
+}
+
+@media (max-height: 760px) and (min-width: 761px) {
+  .about-page {
+    padding-top: calc(16px + var(--nav));
+  }
+}
+
+@media (max-width: 900px) {
+  .about-page {
+    --nav: 64px;
+  }
+}
+
+@media (max-width: 760px) {
+  .about-page {
+    padding-top: calc(12px + var(--nav));
+  }
+}

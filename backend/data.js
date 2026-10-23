@@ -32,7 +32,6 @@ const drivers = [
     { id: 11, name: 'Alex Albon', number: 23, constructorId: 6, price: 13, image: `${F1_IMG}/A/ALEALB01_Alexander_Albon/alealb01.png.transform/1col/image.png` },
     { id: 12, name: 'Carlos Sainz', number: 55, constructorId: 6, price: 14, image: `${F1_IMG}/C/CARSAI01_Carlos_Sainz/carsai01.png.transform/1col/image.png` },
     { id: 13, name: 'Liam Lawson', number: 30, constructorId: 7, price: 10, image: `${F1_IMG}/L/LIALAW01_Liam_Lawson/lialaw01.png.transform/1col/image.png` },
-    { id: 14, name: 'Arvid Lindblad', number: 41, constructorId: 7, price: 7, image: `${F1_IMG}/A/ARVLIN01_Arvid_Lindblad/arvlin01.png.transform/1col/image.png` },
     { id: 15, name: 'Pierre Gasly', number: 10, constructorId: 8, price: 11, image: `${F1_IMG}/P/PIEGAS01_Pierre_Gasly/piegas01.png.transform/1col/image.png` },
     { id: 16, name: 'Franco Colapinto', number: 43, constructorId: 8, price: 7, image: `${F1_IMG}/F/FRACOL01_Franco_Colapinto/fracol01.png.transform/1col/image.png` },
     { id: 17, name: 'Esteban Ocon', number: 31, constructorId: 9, price: 9, image: `${F1_IMG}/E/ESTOCO01_Esteban_Ocon/estoco01.png.transform/1col/image.png` },

@@ -43,8 +43,6 @@ useEffect(() => {
       ...previous,
       [name]: "",
     }));
-
-    setSubmitted(false);
   }
 
   function validate() {
@@ -259,4 +257,4 @@ useEffect(() => {
   );
 }
 
-export default ContactUs;
+export default ContactUs;

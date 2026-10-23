@@ -17,7 +17,7 @@ const teams = [
         id: 1,
         teamName: 'Amanda Racing',
         manager: { name: 'Amanda', country: 'Lebanon' },
-        driverIds: [2, 9, 12, 14, 22],
+        driverIds: [2, 9, 12, 16, 22],
         constructorIds: [6, 11],
         remainingBudget: 7,
         isFinalized: true

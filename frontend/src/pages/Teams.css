@@ -1,35 +1,1228 @@
-.teams-page { max-width: 1200px; margin: auto; padding: 44px 24px 80px; }
-.team-heading { margin: 24px 0 32px; }
-.team-heading h1 { font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; font-style: italic; line-height: 1.15; margin: 10px 0; }
-.team-heading h1 span { color: #ff332d; }
-.team-heading p, .team-panel p { color: #b7bac9; margin: 12px 0; }
-.team-eyebrow { text-transform: uppercase; font-size: .8rem; letter-spacing: .14em; color: #ff6a65; }
-.teams-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr)); gap: 22px; }
-.team-panel { background: #1c1c28; border: 1px solid #373744; border-top: 3px solid #e10600; border-radius: 0 24px 8px 8px; padding: 28px; }
-.team-panel h2 { margin: 10px 0; }
-.team-panel ul { padding-left: 22px; margin: 14px 0 24px; }
-.team-panel li { padding: 5px 0; }
-.team-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
-.team-button { display: inline-block; background: #e10600; color: white; border: 1px solid #e10600; padding: 11px 20px; font: inherit; font-weight: 700; cursor: pointer; border-radius: 4px; }
-.team-heading .team-button { margin-top: 14px; }
-.team-button.secondary { background: transparent; border-color: #646474; }
-.team-button:hover { background: #b90500; }
-.team-button:disabled { opacity: .6; cursor: wait; }
-.team-form { display: grid; gap: 28px; }
-.team-form fieldset { border: 0; min-width: 0; }
-.team-form legend { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; }
-.team-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 18px; }
-.team-fields label { display: grid; gap: 8px; }
-.team-fields input { width: 100%; border: 1px solid #505060; background: #15151e; color: white; border-radius: 4px; padding: 12px; font: inherit; }
-.team-picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 10px; }
-.team-pick { display: flex; align-items: center; gap: 10px; padding: 14px; background: #15151e; border: 1px solid #454553; border-radius: 6px; cursor: pointer; }
-.team-pick strong { margin-left: auto; white-space: nowrap; }
-.team-pick.selected { border-color: #ff332d; background: #331d26; }
-.team-pick input, .team-check input { accent-color: #e10600; width: 18px; height: 18px; flex-shrink: 0; }
-.team-check { display: flex; align-items: center; gap: 12px; }
-.team-budget { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; background: #132d27; border: 1px solid #458775; padding: 18px; border-radius: 6px; }
-.team-budget.over-budget, .team-error { background: #3b1a22; color: #ffd0d0; }
-.team-error { padding: 16px; border: 1px solid #e85b65; border-radius: 5px; margin: 16px 0; }
-.team-error button { font: inherit; margin-left: 12px; padding: 4px 10px; cursor: pointer; }
-.teams-page :focus-visible { outline: 3px solid #ffe18a; outline-offset: 4px; }
-@media (max-width: 600px) { .teams-page { padding: 24px 16px 50px; } .team-panel { padding: 20px; } }
+/* ===== Build Your Team pages (list, details, create, edit, delete, 404) =====
+   Same look as Home and About: red glow from the top, italic headings,
+   slanted race buttons and each team's own color. */
+
+/* ===== Page + red glow ===== */
+.teams-page {
+  /* The page starts behind the see-through navbar (like Home),
+     so the red glow shows through the navbar too */
+  --nav: 72px;
+  min-height: 100dvh;
+  margin-top: calc(-1 * var(--nav));
+  padding: calc(36px + var(--nav)) 24px 80px;
+  background:
+    radial-gradient(ellipse 70% 420px at 50% 0%, rgba(225, 6, 0, 0.3), transparent 70%),
+    #15151e;
+}
+
+.teams-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.teams-wrap.narrow {
+  max-width: 760px;
+}
+
+.back-link {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: #b8b8c4;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: #ffffff;
+}
+
+/* ===== Heading ===== */
+.team-heading {
+  margin: 20px 0 36px;
+}
+
+.team-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #e10600;
+}
+
+.team-heading h1,
+.not-found-title {
+  margin: 10px 0 0;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.team-heading h1 span,
+.not-found-title span {
+  color: #e10600;
+}
+
+.team-heading p {
+  margin-top: 10px;
+  color: #b8b8c4;
+}
+
+/* Smaller heading on the form pages, so the builder starts higher */
+.team-heading.compact {
+  margin: 14px 0 22px;
+}
+
+.team-heading.compact h1 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.team-heading.compact p {
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+
+.team-heading .team-button {
+  margin-top: 22px;
+}
+
+.team-note {
+  color: #b8b8c4;
+}
+
+.team-count {
+  margin-bottom: 16px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #8a8a98;
+}
+
+/* ===== Slanted race buttons (same as Home) ===== */
+.team-button {
+  display: inline-block;
+  padding: 12px 28px;
+  background: #e10600;
+  color: #ffffff;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transform: skewX(-12deg);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.team-button span {
+  display: inline-block;
+  transform: skewX(12deg);
+}
+
+.team-button:hover {
+  background: #ff1e1e;
+  transform: skewX(-12deg) translateY(-2px);
+}
+
+.team-button.outline {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px #ffffff;
+}
+
+.team-button.outline:hover {
+  background: #ffffff;
+  color: #15151e;
+}
+
+.team-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: skewX(-12deg);
+}
+
+/* Small text links for Edit / Delete */
+.team-link {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #b8b8c4;
+  transition: color 0.2s;
+}
+
+.team-link:hover {
+  color: #ffffff;
+}
+
+.team-link.danger:hover {
+  color: #ff4d47;
+}
+
+.team-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+  margin-top: 24px;
+}
+
+/* ===== Panels and cards ===== */
+.team-panel,
+.team-card {
+  background: #1b1b26;
+  border: 1px solid #2a2a36;
+  border-left: 3px solid #e10600;
+  padding: 28px 32px;
+}
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 22px;
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  border-color: #3a3a48;
+  border-left-color: #e10600;
+}
+
+.team-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.team-card h2,
+.danger-panel h2 {
+  font-size: 1.5rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.team-manager {
+  margin-top: -12px;
+  font-size: 0.9rem;
+  color: #b8b8c4;
+}
+
+.team-card .team-actions {
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+/* Finalized / Draft badge */
+.team-status {
+  display: inline-block;
+  flex-shrink: 0;
+  padding: 2px 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.team-status.final {
+  background: #e10600;
+  color: #ffffff;
+}
+
+.team-status.draft {
+  border: 1px solid #8a8a98;
+  color: #b8b8c4;
+}
+
+/* ===== Budget bar ===== */
+.budget-meter-text {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: #8a8a98;
+}
+
+.budget-meter-text strong {
+  color: #ffffff;
+}
+
+.budget-meter-bar {
+  height: 5px;
+  background: #2a2a36;
+}
+
+.budget-meter-fill {
+  height: 100%;
+  background: #e10600;
+  transition: width 0.4s ease;
+}
+
+.budget-meter.over .budget-meter-text strong {
+  color: #ff4d47;
+}
+
+.budget-meter.over .budget-meter-fill {
+  background: #ff4d47;
+}
+
+/* ===== Driver photo circle ===== */
+.driver-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  border: 3px solid #2a2a36;
+  overflow: hidden;
+  background: #15151e;
+}
+
+.driver-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.driver-avatar-number {
+  font-size: calc(var(--size) * 0.32);
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* ===== Line-up (cards, details, delete) ===== */
+.lineup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+}
+
+.lineup-drivers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lineup-constructors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lineup-constructor {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: #15151e;
+  border: 1px solid #2a2a36;
+  border-top: 3px solid #e10600;
+}
+
+.lineup-constructor small {
+  margin-top: 2px;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #8a8a98;
+}
+
+/* Large version on the details page */
+.team-detail {
+  display: grid;
+  gap: 18px;
+  padding: 22px 26px;
+}
+
+.lineup.large {
+  gap: 24px;
+}
+
+.lineup.large .lineup-drivers {
+  gap: 16px;
+}
+
+.lineup.large .lineup-driver {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.2s;
+}
+
+.lineup.large .lineup-driver:hover {
+  transform: translateY(-4px);
+}
+
+.lineup-name {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lineup-price {
+  font-size: 0.75rem;
+  color: #8a8a98;
+}
+
+.lineup.large .lineup-constructors {
+  gap: 12px;
+  padding-left: 24px;
+  border-left: 1px solid #2a2a36;
+}
+
+.lineup.large .lineup-constructor {
+  min-width: 90px;
+  min-height: 58px;
+  font-size: 0.75rem;
+}
+
+/* "All teams" button at the end of the button row.
+   On hover, red fills in from the right and the arrow slides left. */
+.back-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-left: auto;
+  padding: 11px 24px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  border: 2px solid #e10600;
+  transform: skewX(-12deg);
+  transition: border-color 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.back-button > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transform: skewX(12deg);
+}
+
+.back-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #e10600;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.back-button:hover,
+.back-button:focus-visible {
+  border-color: #e10600;
+}
+
+.back-button:hover::before,
+.back-button:focus-visible::before {
+  transform: scaleX(1);
+}
+
+.back-arrow {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.back-button:hover .back-arrow,
+.back-button:focus-visible .back-arrow {
+  transform: translateX(-5px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-button::before,
+  .back-arrow {
+    transition: none;
+  }
+}
+
+/* Team name, manager and badge at the top of the details card */
+.detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #2a2a36;
+}
+
+.detail-header h1 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.detail-header p {
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: #b8b8c4;
+}
+
+.team-detail .budget-meter {
+  max-width: 420px;
+}
+
+.team-detail .team-actions {
+  margin-top: 4px;
+}
+
+/* ===== Team builder (create + edit) =====
+   Laptop: two columns. The left side (info + your picks + button) stays on screen,
+   the right side holds the drivers and constructors to choose from. */
+.builder {
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.builder fieldset {
+  min-width: 0;
+}
+
+.builder-main fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.builder-side {
+  position: sticky;
+  top: calc(var(--nav, 72px) + 88px);
+  display: grid;
+  gap: 16px;
+}
+
+.builder-info,
+.builder-summary,
+.builder-main {
+  background: #1b1b26;
+  border: 1px solid #2a2a36;
+  border-left: 3px solid #e10600;
+  padding: 20px 22px;
+}
+
+.builder-info {
+  display: grid;
+  gap: 12px;
+}
+
+.builder-summary {
+  display: grid;
+  gap: 14px;
+}
+
+.builder-main {
+  display: grid;
+  gap: 24px;
+}
+
+.builder-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.builder-info .builder-title,
+.builder-summary .builder-title {
+  margin-bottom: 0;
+}
+
+/* Keeps the "Team info" title inside its box instead of on the border */
+.builder-info > legend {
+  float: left;
+  padding: 0;
+}
+
+.builder-counts {
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #8a8a98;
+}
+
+.builder-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.builder-info label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.builder-info input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: #ffffff;
+  background: #15151e;
+  border: 1px solid #363644;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.builder-info input::placeholder {
+  color: #8a8a98;
+}
+
+.builder-info input[aria-invalid="true"] {
+  border-color: #ff7975;
+}
+
+.field-error {
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: #ff7975;
+}
+
+.builder-info input:focus {
+  outline: none;
+  border-color: #e10600;
+  box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.15);
+}
+
+/* Your picks: 5 driver circles + 2 constructor boxes */
+.slots {
+  display: flex;
+  gap: 8px;
+}
+
+.slot {
+  padding: 0;
+  color: #ffffff;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.slot:hover {
+  transform: translateY(-2px);
+  opacity: 0.7;
+}
+
+.slot.empty {
+  width: 40px;
+  height: 40px;
+  border: 2px dashed #3a3a48;
+  cursor: default;
+}
+
+.slots.constructors .slot-constructor {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 6px;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  background: #15151e;
+  border: 1px solid #2a2a36;
+  border-top: 3px solid #e10600;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.slots.constructors .slot-constructor:hover {
+  opacity: 0.7;
+}
+
+.slots.constructors .slot-constructor.empty {
+  font-weight: 400;
+  color: #5a5a68;
+  border: 1px dashed #3a3a48;
+  cursor: default;
+}
+
+.builder-summary .team-button {
+  width: calc(100% - 8px);
+  margin: 4px auto 0;
+  text-align: center;
+}
+
+.builder-cancel {
+  justify-self: center;
+  font-size: 0.85rem;
+  color: #b8b8c4;
+  transition: color 0.2s;
+}
+
+.builder-cancel:hover {
+  color: #ffffff;
+}
+
+.builder-summary .team-error {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+/* ===== Budget bar with F1 rev lights =====
+   Sticks right under the navbar so the budget is always visible */
+.rev-bar {
+  grid-column: 1 / -1;
+  position: sticky;
+  top: var(--nav, 72px);
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 26px;
+  padding: 12px 22px;
+  background: rgba(27, 27, 38, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid #2a2a36;
+  border-bottom: 2px solid #e10600;
+}
+
+.rev-lights {
+  display: flex;
+  gap: 6px;
+}
+
+.rev-light {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2a2a36;
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+.rev-light.green {
+  background: #3ddc84;
+  box-shadow: 0 0 8px rgba(61, 220, 132, 0.7);
+}
+
+.rev-light.red {
+  background: #e10600;
+  box-shadow: 0 0 8px rgba(225, 6, 0, 0.8);
+}
+
+.rev-light.blue {
+  background: #3b82f6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+}
+
+/* Over budget: every light flashes red, like the rev limiter */
+.rev-lights.over .rev-light {
+  background: #e10600;
+  box-shadow: 0 0 10px rgba(225, 6, 0, 0.9);
+  animation: rev-limit 0.5s steps(2) infinite;
+}
+
+@keyframes rev-limit {
+  50% {
+    background: #2a2a36;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rev-lights.over .rev-light {
+    animation: none;
+  }
+}
+
+.rev-money {
+  display: grid;
+  line-height: 1.15;
+}
+
+.rev-money strong {
+  font-size: 1.35rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+.rev-money small {
+  font-size: 0.75rem;
+  color: #8a8a98;
+}
+
+.rev-bar.over .rev-money strong {
+  color: #ff4d47;
+}
+
+.rev-counts {
+  display: flex;
+  gap: 18px;
+  margin-left: auto;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #8a8a98;
+}
+
+.rev-counts b {
+  margin-left: 4px;
+  color: #ffffff;
+}
+
+.rev-counts .done b {
+  color: #3ddc84;
+}
+
+.rev-error {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.85rem;
+  color: #ff7975;
+}
+
+/* Tiles you can't afford with what's left */
+.tile.too-much {
+  opacity: 0.45;
+}
+
+.tile.too-much small {
+  color: #ff7975;
+}
+
+/* Driver and constructor tiles */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 8px;
+}
+
+.tile-grid.constructors {
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 6px 10px;
+  text-align: center;
+  background: #15151e;
+  border: 1px solid #2a2a36;
+  border-bottom: 3px solid var(--team);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.tile:hover {
+  transform: translateY(-3px);
+  border-color: #3a3a48;
+  border-bottom-color: var(--team);
+}
+
+.tile strong {
+  max-width: 100%;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tile small {
+  font-size: 0.75rem;
+  color: #8a8a98;
+}
+
+.tile.picked {
+  background: color-mix(in srgb, var(--team) 18%, #15151e);
+  border-color: var(--team);
+}
+
+.tile.picked small {
+  color: #ffffff;
+}
+
+.tile.picked::after {
+  content: '✓';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: #ffffff;
+  background: #e10600;
+  border-radius: 50%;
+}
+
+.tile:has(input:disabled) {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tile:has(input:focus-visible) {
+  outline: 3px solid #ffe18a;
+  outline-offset: 2px;
+}
+
+.tile.constructor {
+  padding: 14px 8px;
+  border-bottom-width: 1px;
+  border-top: 3px solid var(--team);
+}
+
+.tile.constructor strong {
+  margin-top: 0;
+}
+
+.tile.constructor:hover,
+.tile.constructor.picked {
+  border-top-color: var(--team);
+}
+
+.team-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.team-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: #e10600;
+}
+
+/* Hides the real checkbox but keeps it usable with keyboard and screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Tablet and phone: one column; info first, then the choices,
+   and "Your team" sticks to the bottom of the screen with the button */
+@media (max-width: 900px) {
+  .builder {
+    grid-template-columns: 1fr;
+  }
+
+  .builder-side {
+    display: contents;
+  }
+
+  .builder-info {
+    order: 1;
+  }
+
+  .builder-main {
+    order: 2;
+  }
+
+  .builder-summary {
+    order: 3;
+  }
+
+  /* On phones the budget bar sits at the bottom of the screen, near your thumb */
+  .rev-bar {
+    order: 4;
+    top: auto;
+    bottom: 0;
+    gap: 8px 16px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #2a2a36;
+    border-top: 2px solid #e10600;
+  }
+
+  .rev-light {
+    width: 11px;
+    height: 11px;
+  }
+
+  .rev-lights {
+    gap: 4px;
+  }
+
+  .rev-money strong {
+    font-size: 1.05rem;
+  }
+
+  .rev-counts {
+    margin-left: 0;
+    gap: 12px;
+    font-size: 0.7rem;
+  }
+
+  .rev-bar .team-button {
+    margin-left: auto;
+    padding: 10px 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .tile-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tile-grid.constructors {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .slot .driver-avatar,
+  .slot.empty {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ===== Delete page ===== */
+.danger-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.danger-panel .team-manager {
+  margin-top: -10px;
+}
+
+.delete-warning {
+  padding: 12px 16px;
+  font-size: 0.9rem;
+  color: #ffd0d0;
+  background: rgba(225, 6, 0, 0.1);
+  border-left: 3px solid #e10600;
+}
+
+/* ===== Errors ===== */
+.team-error {
+  margin: 16px 0;
+  padding: 14px 16px;
+  color: #ffd0d0;
+  background: #3b1a22;
+  border: 1px solid #e85b65;
+}
+
+.team-error button {
+  margin-left: 12px;
+  padding: 4px 12px;
+  font: inherit;
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid #ffd0d0;
+  cursor: pointer;
+}
+
+/* ===== 404 ===== */
+.not-found {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding-top: 12vh;
+  text-align: center;
+}
+
+.not-found .team-button {
+  margin-top: 8px;
+}
+
+.teams-page :focus-visible {
+  outline: 3px solid #ffe18a;
+  outline-offset: 4px;
+}
+
+/* The navbar is 64px tall on smaller screens */
+@media (max-width: 900px) {
+  .teams-page {
+    --nav: 64px;
+  }
+}
+
+/* ===== Phone ===== */
+@media (max-width: 600px) {
+  .teams-page {
+    padding: calc(24px + var(--nav)) 16px 56px;
+  }
+
+  .team-panel,
+  .team-card {
+    padding: 22px 18px;
+  }
+
+  .lineup.large .lineup-constructors {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* ===== Animations (same feel as the Contact page) =====
+   Sections fade up into place one after another when a page opens. */
+@keyframes team-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* A picked driver or constructor pops into "Your team" */
+@keyframes team-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.team-heading,
+.rev-bar,
+.builder-side,
+.builder-main,
+.team-detail,
+.danger-panel,
+.not-found {
+  animation: team-fade-in 0.85s ease-out both;
+}
+
+.rev-bar {
+  animation-delay: 0.1s;
+}
+
+.builder-side {
+  animation-delay: 0.2s;
+}
+
+.builder-main,
+.danger-panel {
+  animation-delay: 0.3s;
+}
+
+/* Team cards arrive one by one */
+.team-card {
+  animation: team-fade-in 0.85s ease-out both;
+}
+
+.team-card:nth-child(2) { animation-delay: 0.1s; }
+.team-card:nth-child(3) { animation-delay: 0.2s; }
+.team-card:nth-child(4) { animation-delay: 0.3s; }
+.team-card:nth-child(5) { animation-delay: 0.4s; }
+.team-card:nth-child(n + 6) { animation-delay: 0.5s; }
+
+/* Smoother picking: same easing as the Contact page's flags */
+.tile,
+.pick-card,
+.team-card,
+.lineup-driver,
+.slot,
+.slot-constructor {
+  transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.tile {
+  transition-property: transform, background, border-color, opacity;
+  transition-duration: 0.3s;
+}
+
+.slot:not(.empty),
+.slot-constructor:not(.empty) {
+  animation: team-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.field-error,
+.rev-error {
+  animation: team-fade-in 0.35s ease-out both;
+}
+
+.budget-meter-fill {
+  transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1), background 0.3s;
+}
+
+/* People who turn off animations in their system settings get none */
+@media (prefers-reduced-motion: reduce) {
+  .team-heading,
+  .rev-bar,
+  .builder-side,
+  .builder-main,
+  .team-detail,
+  .danger-panel,
+  .not-found,
+  .team-card,
+  .slot,
+  .slot-constructor,
+  .field-error,
+  .rev-error {
+    animation: none;
+  }
+
+  .tile,
+  .team-card,
+  .budget-meter-fill {
+    transition: none;
+  }
+}
